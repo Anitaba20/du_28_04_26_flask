@@ -30,6 +30,9 @@ def add_book():
     books.append(new_book)
     return jsonify(new_book), 201
 
+
+
+# ------
 # Zobrazenie jednej knihy:
 @app.route('/knihy/<int:id>', methods=['GET'])
 def zobraz_knihu(id):
@@ -40,12 +43,27 @@ def zobraz_knihu(id):
     return jsonify({"chyba": "Kniha nenájdená"}), 404
 
 
+# Aktualizácia knihy:
+@app.route('/knihy/<int:id>', methods=['PUT'])
+def aktualizuj_knihu(id):
+    for kniha in knihy:
+        if kniha["id"] == id:
+            kniha["title"] = request.json["title"]
+            kniha["author"] = request.json["author"]
+            return jsonify(kniha)
+
+    return {"chyba": "Kniha nenájdená"}, 404
 
 
+# Vymazanie knihy:
+@app.route('/knihy/<int:id>', methods=['DELETE'])
+def vymaz_knihu(id):
+    for kniha in knihy:
+        if kniha["id"] == id:
+            knihy.remove(kniha)
+            return {"sprava": "Kniha vymazaná"}
 
-
-
-
+    return {"chyba": "Kniha nenájdená"}, 404
 
 
 if __name__ == '__main__':
