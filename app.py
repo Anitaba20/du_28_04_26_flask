@@ -11,17 +11,12 @@ app = Flask(__name__)
 def home():
     return 'Nasa kniznica'
 
-
 @app.route('/knihy', methods=['GET'])
 def get_books():
     return jsonify({'books': books})
 
-
 @app.route('/knihy/<int:id>', methods=['GET'])
 def get_book(id):
-
-
-# TODO DOPLNIT
 
 @app.route('/knihy', methods=['POST'])
 def add_book():
@@ -34,9 +29,7 @@ def add_book():
     books.append(new_book)
     return jsonify(new_book), 201
 
-
-
-# ------
+# -------------------------------
 # Zobrazenie jednej knihy:
 @app.route('/knihy/<int:id>', methods=['GET'])
 def get_one_book(id):
@@ -72,3 +65,5 @@ def delete_book(id):
 
 if __name__ == '__main__':
     app.run()
+
+
