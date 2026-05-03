@@ -6,19 +6,23 @@ books = [
 ]
 
 app = Flask(__name__)
+
 @app.route('/')
 def home():
     return 'Nasa kniznica'
 
+
 @app.route('/knihy', methods=['GET'])
 def get_books():
     return jsonify({'books': books})
+
 
 @app.route('/knihy/<int:id>', methods=['GET'])
 def get_book(id):
 
 
 # TODO DOPLNIT
+
 @app.route('/knihy', methods=['POST'])
 def add_book():
     print(request.json)
@@ -35,35 +39,35 @@ def add_book():
 # ------
 # Zobrazenie jednej knihy:
 @app.route('/knihy/<int:id>', methods=['GET'])
-def zobraz_knihu(id):
-    for kniha in knihy:
-        if kniha["id"] == id:
-            return jsonify(kniha)
+def get_one_book(id):
+    for book in books:
+        if book["id"] == id:
+            return jsonify(book)
 
-    return jsonify({"chyba": "Kniha nenájdená"}), 404
+    return jsonify({"error": "Book not found"}), 404
 
 
 # Aktualizácia knihy:
 @app.route('/knihy/<int:id>', methods=['PUT'])
-def aktualizuj_knihu(id):
-    for kniha in knihy:
-        if kniha["id"] == id:
-            kniha["title"] = request.json["title"]
-            kniha["author"] = request.json["author"]
-            return jsonify(kniha)
+def update_book(id):
+    for book in books:
+        if book["id"] == id:
+            book["title"] = request.json["title"]
+            book["author"] = request.json["author"]
+            return jsonify(book)
 
-    return {"chyba": "Kniha nenájdená"}, 404
+    return {"error": "Book not found"}, 404
 
 
 # Vymazanie knihy:
 @app.route('/knihy/<int:id>', methods=['DELETE'])
-def vymaz_knihu(id):
-    for kniha in knihy:
-        if kniha["id"] == id:
-            knihy.remove(kniha)
-            return {"sprava": "Kniha vymazaná"}
+def delete_book(id):
+    for book in books:
+        if book["id"] == id:
+            books.remove(book)
+            return {"message": "Book deleted"}
 
-    return {"chyba": "Kniha nenájdená"}, 404
+    return {"error": "Book not found"}, 404
 
 
 if __name__ == '__main__':
